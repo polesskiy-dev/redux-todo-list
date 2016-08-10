@@ -1,9 +1,18 @@
 import React, {Component} from 'react'
+import {List} from 'immutable'
+import TodoItemsList from './todo-items-list/TodoItemsList'
+
+const testTodosData = List([
+    {id: 0, isDone: true, text: 'make components'},
+    {id: 1, isDone: false, text: 'design actions'},
+    {id: 2, isDone: false, text: 'implement reducer'},
+    {id: 3, isDone: false, text: 'connect components'}
+]);
 
 /**
  * Root component
  */
-export default class App extends Component {
+class App extends Component {
     render() {
         return (
             <div>
@@ -17,7 +26,12 @@ export default class App extends Component {
                         </div>
                     </nav>
                 </header>
+                <section>
+                    <TodoItemsList todos={testTodosData}/>
+                </section>
             </div>
-        )
+        );
     }
 }
+
+export default App;
