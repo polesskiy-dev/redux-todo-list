@@ -1,8 +1,9 @@
 import {connect} from 'react-redux';
-import * as components from '../components/todo-items-list/TodoItemsList';
+//import * as components from '../components/todo-items-list/TodoItemsList';
+import TodoItemsListComponent from '../components/todo-items-list/TodoItemsList'
 import {addTodo, toggleTodo, removeTodo} from '../actions/actions';
 
-export const TodoItemsList = connect(
+const TodoItemsList = connect(
     function mapStateToProps(state) {
         return {todos: state};
     },
@@ -13,4 +14,6 @@ export const TodoItemsList = connect(
             removeTodo: id => dispatch(removeTodo(id))
         };
     }
-)(components.TodoItemsList);
+)(TodoItemsListComponent);
+
+export default TodoItemsList;

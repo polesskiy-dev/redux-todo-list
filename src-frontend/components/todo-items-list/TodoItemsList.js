@@ -1,11 +1,11 @@
 import React, {PropTypes, Component} from 'react'
-// import {connect} from 'react-redux';
+import {connect} from 'react-redux';
+import {toggleTodo} from '../../actions/actions';
 import ImmutablePropTypes from 'react-immutable-proptypes'
 import TodoItem from '../todo-item/TodoItem'
-// import {addTodo, toggleTodo, removeTodo} from '../../actions/actions';
 import './TodoItemsList.less'
 
-export default class TodoItemsList extends Component {
+class TodoItemsList extends Component {
     static propTypes = {
         todos: ImmutablePropTypes.listOf(PropTypes.shape({
             id: PropTypes.number.isRequired,
@@ -17,13 +17,15 @@ export default class TodoItemsList extends Component {
 
     render() {
         const todos = this.props.todos;
+        const dispatch = this.props.dispatch;
+
         return (
             <ul className='todo-list'>
                 {todos.map(todo => <TodoItem
                         key={todo.id}
                         todo={todo}
                         onClick={() => {
-                            this.props.toggleTodo(todo.id)
+                            dispatch(toggleTodo(todo.id))
                         }}
                     />
                 )}
@@ -32,15 +34,11 @@ export default class TodoItemsList extends Component {
     }
 }
 
-// TodoItemsList = connect(
-//     function mapStateToProps(state) {
-//         return {todos: state};
-//     },
-//     function mapDispatchToProps(dispatch) {
-//         return {
-//             addTodo: text => dispatch(addTodo(text)),
-//             toggleTodo: id => dispatch(toggleTodo(id)),
-//             removeTodo: id => dispatch(removeTodo(id))
-//         };
-//     }
-// )(components.TodoItemsList);
+const mapDispatchToProps = (dispatch) => {
+    return {
+        toggleTodo: id => dispatch(toggleTodo(id))
+    };
+};
+
+export default connect(mapDispatchToProps)(TodoItemsList)
+

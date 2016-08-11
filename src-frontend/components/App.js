@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import {List} from 'immutable'
-import TodoItemsList from './todo-items-list/TodoItemsList'
+import NavControlBar from './nav-control-bar/NavControlBar'
+import TodoItemsList from '../components/todo-items-list/TodoItemsList'
 
 const testTodosData = List([
     {id: 0, isDone: true, text: 'make components'},
@@ -17,14 +18,7 @@ class App extends Component {
         return (
             <div>
                 <header>
-                    <nav className="aui-navgroup aui-navgroup-horizontal">
-                        <div className="aui-navgroup-inner">
-                            <div className="aui-navgroup-primary">
-                                <ul className="aui-nav">
-                                </ul>
-                            </div>
-                        </div>
-                    </nav>
+                    <NavControlBar/>
                 </header>
                 <section>
                     <TodoItemsList todos={testTodosData}/>
