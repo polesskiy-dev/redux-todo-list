@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux';
 import * as Actions from '../../actions/actions';
-import './TodoItem.less'
+import style from './TodoItem.less'
 
 class TodoItem extends Component {
     render() {
@@ -9,16 +9,16 @@ class TodoItem extends Component {
         const {text, isDone} = this.props.todo;
 
         return (
-            <div className={"aui-message closeable " + (isDone ? "success" : "error")}>
+            <article className={`aui-message closeable ${style.item} ${isDone ? "success" : "error"}`}>
                 <div onClick={() => onTodoClick(id)}>
                     <p className="title">
-                        <span className={"aui-icon " + (isDone ? "icon-success" : "icon-error")}/>
+                        <span className={`aui-icon ${isDone ? "icon-success" : "icon-error"}`}/>
                         <strong>Number: {id}</strong>
                     </p>
                     <p>{text}</p>
                 </div>
                 <span onClick={() => onRemoveTodoClick(id)} className="aui-icon icon-close" role="button"/>
-            </div>
+            </article>
         );
     }
 }

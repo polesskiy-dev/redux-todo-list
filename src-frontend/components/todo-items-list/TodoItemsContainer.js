@@ -2,7 +2,7 @@ import React, {PropTypes, Component} from 'react'
 import {connect} from 'react-redux';
 import ImmutablePropTypes from 'react-immutable-proptypes'
 import TodoItem from '../todo-item/TodoItem'
-import style from './TodoItemsList.less'
+import style from './TodoItemsContainer.less'
 
 class TodoItemsList extends Component {
     static propTypes = {
@@ -16,14 +16,14 @@ class TodoItemsList extends Component {
         const todos = this.props.todos;
 
         return (
-            <ul className={style.list}>
+            <section className={style['items-flex-container']}>
                 {todos.map((todo, index) => <TodoItem
                         key={index}
                         id={index}
                         todo={todo}
                     />
                 )}
-            </ul>
+            </section>
         )
     }
 }

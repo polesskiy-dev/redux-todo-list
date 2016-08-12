@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import NavControlBar from './nav-control-bar/NavControlBar'
-import TodoItemsList from '../components/todo-items-list/TodoItemsList'
+import TodoItemsContainer from './todo-items-list/TodoItemsContainer'
 
 /**
  * Root component
@@ -12,9 +12,7 @@ class App extends Component {
                 <header>
                     <NavControlBar/>
                 </header>
-                <section>
-                    <TodoItemsList/>
-                </section>
+                <TodoItemsContainer/>
             </div>
         );
     }
