@@ -2,18 +2,20 @@ import React from 'react'
 import {render} from 'react-dom'
 import {createStore} from 'redux'
 import {Provider} from 'react-redux'
-import {List} from 'immutable'
+import {Map, List} from 'immutable'
 import App from './components/App'
 import rootReducer from './reducers/root-reducer'
 
-const testTodosData = List([
-    {isDone: true, text: 'make components'},
-    {isDone: false, text: 'design actions'},
-    {isDone: false, text: 'implement reducer'},
-    {isDone: false, text: 'connect components'}
-]);
+const DUMMY_INITIAL_DATA = Map({
+    todos: List([
+        Map({isDone: true, text: 'make components'}),
+        Map({isDone: false, text: 'design actions'}),
+        Map({isDone: false, text: 'implement reducer'}),
+        Map({isDone: false, text: 'connect components'})
+    ])
+});
 
-const store = createStore(rootReducer, testTodosData);
+const store = createStore(rootReducer, DUMMY_INITIAL_DATA);
 
 console.log("State after initializing: ", store.getState());
 

@@ -1,12 +1,13 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux';
-import * as Actions from '../../actions/actions';
+import * as Actions from '../../actions/actions'
 import style from './TodoItem.less'
 
 class TodoItem extends Component {
     render() {
-        const {id, onTodoClick, onRemoveTodoClick} = this.props;
-        const {text, isDone} = this.props.todo;
+        const {id, todo, onTodoClick, onRemoveTodoClick} = this.props;
+        const text = todo.get('text');
+        const isDone = todo.get('isDone');
 
         return (
             <article className={`aui-message closeable ${style.item} ${isDone ? "success" : "error"}`}>

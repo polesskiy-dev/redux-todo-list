@@ -1,19 +1,20 @@
-import React, {PropTypes, Component} from 'react'
+import React, {Component} from 'react'
 import {connect} from 'react-redux';
-import ImmutablePropTypes from 'react-immutable-proptypes'
+// import ImmutablePropTypes from 'react-immutable-proptypes'
 import TodoItem from '../todo-item/TodoItem'
 import style from './TodoItemsContainer.less'
 
 class TodoItemsList extends Component {
-    static propTypes = {
-        todos: ImmutablePropTypes.listOf(PropTypes.shape({
-            isDone: PropTypes.bool.isRequired,
-            text: PropTypes.string.isRequired
-        }).isRequired).isRequired
-    };
+    /*static propTypes = {
+     todos: ImmutablePropTypes.listOf(PropTypes.shape({
+     isDone: PropTypes.bool.isRequired,
+     text: PropTypes.string.isRequired
+     }).isRequired).isRequired
+     };*/
 
     render() {
         const todos = this.props.todos;
+        console.log(todos);
 
         return (
             <section className={style['items-flex-container']}>
@@ -30,7 +31,7 @@ class TodoItemsList extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        todos: state
+        todos: state.get('todos')
     }
 };
 
