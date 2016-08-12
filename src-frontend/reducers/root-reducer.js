@@ -26,6 +26,12 @@ const rootReducer = (state = initialTodosState, action) => {
             console.log("List item must be removed, with id %d, item to delete: %o", action.payload, state.get('todos').get(action.payload));
             return state.deleteIn(['todos', action.payload]);
 
+        /*
+         * Replace text in todo
+         */
+        case Actions.REPLACE_TODO:
+            return state.setIn(['todos', action.payload.id, 'text'], action.payload.text);
+
 
         default:
             console.log("Default in root-reducer invoked, state: ", state);

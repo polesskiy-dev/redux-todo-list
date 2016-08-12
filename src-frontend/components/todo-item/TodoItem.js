@@ -3,22 +3,71 @@ import {connect} from 'react-redux';
 import * as Actions from '../../actions/actions'
 import style from './TodoItem.less'
 
+class InlineEdit extends Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            isEditable: false,
+            text: this.props.text
+        }
+    }
+
+    startEdit = (e)=> {
+        e.stopPropagation();
+        this.setState({isEditable: true})
+    };
+
+    handleEdit = (e) => {
+        console.log('change event');
+        this.setState({message: e.target.value});
+    };
+
+    finishEdit = (e)=> {
+        e.stopPropagation();
+        this.setState({isEditable: false})
+    };
+
+    render() {
+        const {onStartEdit, onFinishEdit} = this.props;
+        let text = this.state.text;
+        onStartEdit;
+        onFinishEdit;
+
+        return (
+
+            <div>
+                {(this.state.isEditable) ?
+                    <input autoFocus onChange={this.handleEdit} onBlur={this.finishEdit} type="text"
+                           value={text}/>
+                    :
+                    <p onClick={this.startEdit}>{text}</p>
+                }
+            </div>
+        )
+    }
+}
+
 class TodoItem extends Component {
     render() {
-        const {id, todo, onTodoClick, onRemoveTodoClick} = this.props;
+        const {id, todo, onTodoClick, onRemoveTodoClick, onReplaceTodoClick} = this.props;
         const text = todo.get('text');
         const isDone = todo.get('isDone');
 
         return (
-            <article className={`aui-message closeable ${style.item} ${isDone ? "success" : "error"}`}>
-                <div onClick={() => onTodoClick(id)}>
-                    <p className="title">
-                        <span className={`aui-icon ${isDone ? "icon-success" : "icon-error"}`}/>
-                        <strong>Number: {id}</strong>
-                    </p>
-                    <p>{text}</p>
-                </div>
-                <span onClick={() => onRemoveTodoClick(id)} className="aui-icon icon-close" role="button"/>
+            <article onClick={() => onTodoClick(id)}
+                     className={`aui-message closeable ${style.item} ${isDone ? "success" : "error"}`}>
+
+                <p className="title">
+                    <span className={`aui-icon ${isDone ? "icon-success" : "icon-error"}`}/>
+                    <strong>Number: {id}</strong>
+                </p>
+                <InlineEdit text={text} onFinishEdit={(newText)=>onReplaceTodoClick(id, newText)}/>
+
+                <span onClick={(e) => {
+                    e.stopPropagation();
+                    onRemoveTodoClick(id);
+                }} className="aui-icon icon-close" role="button"/>
             </article>
         );
     }
@@ -27,7 +76,8 @@ class TodoItem extends Component {
 const mapDispatchToProps = (dispatch) => {
     return {
         onTodoClick: (id) => dispatch(Actions.toggleTodo(id)),
-        onRemoveTodoClick: (id) => dispatch(Actions.removeTodo(id))
+        onRemoveTodoClick: (id) => dispatch(Actions.removeTodo(id)),
+        onReplaceTodoClick: (id, newText) => dispatch(Actions.replaceText(id, newText))
     };
 };
 
