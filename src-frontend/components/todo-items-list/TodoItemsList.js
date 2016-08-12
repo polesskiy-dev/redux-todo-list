@@ -2,7 +2,7 @@ import React, {PropTypes, Component} from 'react'
 import {connect} from 'react-redux';
 import ImmutablePropTypes from 'react-immutable-proptypes'
 import TodoItem from '../todo-item/TodoItem'
-import './TodoItemsList.less'
+import style from './TodoItemsList.less'
 
 class TodoItemsList extends Component {
     static propTypes = {
@@ -16,7 +16,7 @@ class TodoItemsList extends Component {
         const todos = this.props.todos;
 
         return (
-            <ul className='todo-list'>
+            <ul className={style.list}>
                 {todos.map((todo, index) => <TodoItem
                         key={index}
                         id={index}
