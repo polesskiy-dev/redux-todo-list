@@ -16,8 +16,8 @@ const rootReducer = (state = initialTodosState, action) => {
          */
         case Actions.TOGGLE_TODO :
             console.log("List item must be toggled, with id %d, state: %o, appropriate item: %o", action.payload, state, state.get(action.payload));
-            //FIXME: correct updateIn
-            return state.updateIn([action.payload, 'isDone'], isDone=>!isDone);
+            //TODO: investigate how to use nested immutable objects
+            return state.updateIn([action.payload], (item) => Object.assign({}, item, {isDone: !item.isDone}));
 
         /*
          * Remove todo from state
