@@ -12,7 +12,9 @@ class App extends Component {
                 <header>
                     <NavControlBar/>
                 </header>
-                <TodoItemsContainer/>
+                <section className="aui-page-panel">
+                    <TodoItemsContainer/>
+                </section>
             </div>
         );
     }

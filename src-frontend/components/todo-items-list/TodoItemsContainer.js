@@ -16,7 +16,7 @@ class TodoItemsList extends Component {
         const todos = this.props.todos;
 
         return (
-            <section className={style['items-flex-container']}>
+            <section className={`${style['flex-container']}`}>
                 {todos.map((todo, index) => <TodoItem
                         key={index}
                         id={index}

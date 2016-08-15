@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import './InlineEditableText.less'
+import styles from './InlineEditableText.less'
 
 class InlineEditableText extends Component {
     constructor(props) {
@@ -30,11 +30,13 @@ class InlineEditableText extends Component {
 
     render() {
         return (
-            <div>
+            <div className={styles['editable-container']}>
                 {(this.state.isEditable) ?
-                    <textarea autoFocus
-                              onChange={this.handleEdit} onBlur={this.finishEdit} onClick={this.finishEdit} value={this.state.text}
-                              type="text"
+                    <textarea
+                        className="textarea"
+                        autoFocus
+                        onChange={this.handleEdit} onBlur={this.finishEdit} onClick={this.finishEdit}
+                        value={this.state.text}
                     />
                     :
                     <p onClick={this.startEdit}>{this.state.text}</p>
