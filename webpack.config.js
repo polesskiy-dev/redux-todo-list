@@ -28,11 +28,13 @@ module.exports = {
             },
             //LESS
             {
-                test: /\.(less|css)$/,
+                test: /\.(less)$/,
                 loader: [
                     'style',
-                    'css?modules&importLoaders=1&localIdentName=[local]_[hash:base64:5]',
-                    'less'   // if you want .less support
+                    //The query parameter importLoaders allow to configure which loaders should be applied to @imported resources.
+                    'css?modules&importLoaders=1&localIdentName=[path][name]---[local]---[hash:base64:5] ',
+                    'autoprefixer',
+                    'less'
                 ].join('!')
             }
         ]

@@ -1,9 +1,8 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux';
 import * as Actions from '../../actions/actions'
-import style from './TodoItem.less'
+import styles from './TodoItem.less'
 import InlineEditableText from './inline-editable-text/InlineEditableText'
-
 
 class TodoItem extends Component {
     render() {
@@ -13,7 +12,7 @@ class TodoItem extends Component {
 
         return (
             <article onClick={() => onTodoClick(id)}
-                     className={`aui-message closeable ${style.item} ${isDone ? "success" : "error"}`}>
+                     className={`aui-message closeable ${styles.item} ${isDone ? "success" : "error"}`}>
 
                 <p className="title">
                     <span className={`aui-icon ${isDone ? "icon-success" : "icon-error"}`}/>

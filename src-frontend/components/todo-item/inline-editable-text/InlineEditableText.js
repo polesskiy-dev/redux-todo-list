@@ -33,7 +33,7 @@ class InlineEditableText extends Component {
             <div>
                 {(this.state.isEditable) ?
                     <textarea autoFocus
-                              onChange={this.handleEdit} onBlur=onClick={this.finishEdit} value={this.state.text}
+                              onChange={this.handleEdit} onBlur={this.finishEdit} onClick={this.finishEdit} value={this.state.text}
                               type="text"
                     />
                     :
