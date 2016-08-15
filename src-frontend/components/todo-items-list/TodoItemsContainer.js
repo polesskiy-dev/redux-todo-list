@@ -14,7 +14,6 @@ class TodoItemsList extends Component {
 
     render() {
         const todos = this.props.todos;
-        console.log(todos);
 
         return (
             <section className={style['items-flex-container']}>

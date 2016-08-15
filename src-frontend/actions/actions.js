@@ -1,7 +1,7 @@
 export const ADD_TODO = 'ADD_TODO';
 export const TOGGLE_TODO = 'TOGGLE_TODO';
 export const REMOVE_TODO = 'REMOVE_TODO';
-export const REPLACE_TODO = 'REPLACE_TODO';
+export const REPLACE_TODO_TEXT = 'REPLACE_TODO_TEXT';
 
 /**
  * Action creators
@@ -32,7 +32,7 @@ export const removeTodo = (id) => {
 
 export const replaceText = (id, text) => {
     return {
-        type: REPLACE_TODO,
+        type: REPLACE_TODO_TEXT,
         payload: {
             id: id,
             text: text

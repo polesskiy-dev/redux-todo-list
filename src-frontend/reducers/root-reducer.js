@@ -29,7 +29,8 @@ const rootReducer = (state = initialTodosState, action) => {
         /*
          * Replace text in todo
          */
-        case Actions.REPLACE_TODO:
+        case Actions.REPLACE_TODO_TEXT:
+            console.log("List item text must be replaced, with id %d, new item text: %s", action.payload.id, action.payload.text);
             return state.setIn(['todos', action.payload.id, 'text'], action.payload.text);
 
 
