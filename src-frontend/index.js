@@ -1,11 +1,12 @@
 import React from 'react'
 import {render} from 'react-dom'
-import {createStore} from 'redux'
+import {createStore, applyMiddleware} from 'redux'
 import {Provider} from 'react-redux'
 import {Map, List} from 'immutable'
 import {toJSON, fromJSON} from 'transit-immutable-js'
 import App from './components/App'
 import rootReducer from './reducers/root-reducer'
+import actionsLogger from './middleware/actions-logger'
 
 const DUMMY_INITIAL_DATA = Map({
     todos: List([
@@ -20,7 +21,7 @@ const DUMMY_INITIAL_DATA = Map({
 const PERSISTED_STATE = localStorage.getItem('reduxState') ? Map(fromJSON(localStorage.getItem('reduxState'))) : DUMMY_INITIAL_DATA;
 
 /* create store and init it by initial data*/
-const store = createStore(rootReducer, PERSISTED_STATE);
+const store = createStore(rootReducer, PERSISTED_STATE, applyMiddleware(actionsLogger));
 
 /*
  * Subscribe on store change event.
