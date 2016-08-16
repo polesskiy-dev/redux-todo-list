@@ -1,5 +1,11 @@
+/**
+ * @see https://www.npmjs.com/package/isomorphic-fetch
+ */
+
 import React, {Component} from 'react'
 import {connect} from 'react-redux';
+import fetch from 'isomorphic-fetch'
+import {fromJSON} from 'transit-immutable-js'
 import * as Actions from '../../actions/actions';
 import styles from './NavControlBar.less'
 
@@ -58,12 +64,26 @@ class NavControlBar extends Component {
     }
 }
 
+const mapStateToProps = (state) => {
+    return {
+        todos: state.get('todos')
+    }
+};
+
 const mapDispatchToProps = (dispatch) => {
     return {
         createNewTodoItem: (text) => dispatch(Actions.addTodo(text)),
         postTodosToServer: () => dispatch(Actions.postTodos()),
-        getTodosFromServer: () => dispatch(Actions.getTodos())
+        getTodosFromServer: () => {
+            fetch('/todos')
+                .then(resp=>resp.text())
+                .then((text)=> {
+                        console.log(fromJSON(text))
+                        dispatch(Actions.receiveTodos(fromJSON(text)));
+                    }
+                )
+        }
     };
 };
 
-export default connect(null, mapDispatchToProps)(NavControlBar)
+export default connect(mapStateToProps, mapDispatchToProps)(NavControlBar)

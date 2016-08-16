@@ -1,5 +1,7 @@
 import {Map, List} from 'immutable'
 import * as Actions from '../actions/actions';
+import fetch from 'isomorphic-fetch'
+import {toJSON} from 'transit-immutable-js'
 
 const initialTodosState = Map({todos: List([])});
 
@@ -36,10 +38,15 @@ const rootReducer = (state = initialTodosState, action) => {
 
         case Actions.POST_TODOS:
             console.log("List of todos: %o must be serialized and sent to server", state.get('todos'));
+            fetch('/todos', {
+                method: 'post',
+                body: toJSON(state.get('todos'))
+            });
             return state;
-        case Actions.GET_TODOS:
-            console.log("List of todos must get server and parsed");
-            return state;
+
+        case Actions.RECEIVE_TODOS:
+            console.log("Obtained new list of todos: %o", action.payload.todos);
+            return state.set('todos', action.payload.todos);
 
 
         default:

@@ -25,16 +25,18 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', routes);
 app.use('/users', users);
 
-let todos = {};
+let todosJSON = '["~#iL",[["~#iM",["isDone",true,"text","Lorem ipsum dolor"]],["^1",["isDone",false,"text","Lorem ipsum dolor"]],["^1",["isDone",true,"text","Lorem ipsum dolor"]],["^1",["isDone",false,"text","Lorem ipsum dolor"]],["^1",["isDone",true,"text","Lorem ipsum dolor"]],["^1",["isDone",false,"text","Lorem ipsum dolor"]],["^1",["isDone",false,"text","Lorem ipsum dolor"]]]]';
 
 app.post('/todos', (req, resp)=> {
-    todos = JSON.parse(req.body);
-    console.log("New todos: %j", todos);
-    resp.send(req.body)
+    todosJSON = req.body;
+    console.log(todosJSON);
+    resp.send("OK");
 });
 
 app.get('/todos', (req, resp)=> {
-    resp.send(JSON.stringify(todos));
+    // console.log("Sending: %s", JSON.stringify(todos));
+    // resp.send(JSON.stringify(todos));
+    resp.send(todosJSON);
 });
 
 // catch 404 and forward to error handler

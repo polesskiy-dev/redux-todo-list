@@ -19,7 +19,7 @@ const DUMMY_INITIAL_DATA = Map({
 });
 
 /* parse data from local storage (if exists) to initial state*/
-const PERSISTED_STATE = sessionStorage.getItem('reduxState') ? Map(fromJSON(localStorage.getItem('reduxState'))) : DUMMY_INITIAL_DATA;
+const PERSISTED_STATE = sessionStorage.getItem('reduxState') ? Map(fromJSON(sessionStorage.getItem('reduxState'))) : DUMMY_INITIAL_DATA;
 
 /* create store and init it by initial data*/
 const store = createStore(reducer, PERSISTED_STATE, applyMiddleware(actionsLogger, thunk));
