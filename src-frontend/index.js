@@ -2,10 +2,11 @@ import React from 'react'
 import {render} from 'react-dom'
 import {createStore, applyMiddleware} from 'redux'
 import {Provider} from 'react-redux'
+import thunk from 'redux-thunk';
 import {Map, List} from 'immutable'
 import {toJSON, fromJSON} from 'transit-immutable-js'
 import App from './components/App'
-import rootReducer from './reducers/root-reducer'
+import reducer from './reducers/root-reducer'
 import actionsLogger from './middleware/actions-logger'
 
 const DUMMY_INITIAL_DATA = Map({
@@ -18,17 +19,17 @@ const DUMMY_INITIAL_DATA = Map({
 });
 
 /* parse data from local storage (if exists) to initial state*/
-const PERSISTED_STATE = localStorage.getItem('reduxState') ? Map(fromJSON(localStorage.getItem('reduxState'))) : DUMMY_INITIAL_DATA;
+const PERSISTED_STATE = sessionStorage.getItem('reduxState') ? Map(fromJSON(localStorage.getItem('reduxState'))) : DUMMY_INITIAL_DATA;
 
 /* create store and init it by initial data*/
-const store = createStore(rootReducer, PERSISTED_STATE, applyMiddleware(actionsLogger));
+const store = createStore(reducer, PERSISTED_STATE, applyMiddleware(actionsLogger, thunk));
 
 /*
  * Subscribe on store change event.
  * Serialize state and save to local storage.
  */
 store.subscribe(()=> {
-    localStorage.setItem('reduxState', toJSON(store.getState()));
+    sessionStorage.setItem('reduxState', toJSON(store.getState()));
 });
 
 console.log("State after initializing: ", store.getState());

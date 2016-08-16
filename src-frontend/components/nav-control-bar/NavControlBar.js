@@ -31,7 +31,7 @@ class NavControlBar extends Component {
                 <ul className="aui-nav">
                     <li>
                         <a href="#"
-                           onClick={this.createNewTodoItem}>Create new todo item
+                           onClick={this.createNewTodoItem}>Create new todo item:
                         </a>
                     </li>
                     <li>
@@ -46,6 +46,12 @@ class NavControlBar extends Component {
                             </fieldset>
                         </form>
                     </li>
+                    <li>
+                        <a onClick={this.props.postTodosToServer} href="#">Save to server</a>
+                    </li>
+                    <li>
+                        <a onClick={this.props.getTodosFromServer} href="#">Get from server</a>
+                    </li>
                 </ul>
             </nav>
         )
@@ -55,6 +61,8 @@ class NavControlBar extends Component {
 const mapDispatchToProps = (dispatch) => {
     return {
         createNewTodoItem: (text) => dispatch(Actions.addTodo(text)),
+        postTodosToServer: () => dispatch(Actions.postTodos()),
+        getTodosFromServer: () => dispatch(Actions.getTodos())
     };
 };
 

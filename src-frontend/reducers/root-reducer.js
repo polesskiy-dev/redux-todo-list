@@ -34,6 +34,13 @@ const rootReducer = (state = initialTodosState, action) => {
             console.log("List item text must be replaced, with id %d, new item text: %s", action.payload.id, action.payload.text);
             return state.setIn(['todos', action.payload.id, 'text'], action.payload.text);
 
+        case Actions.POST_TODOS:
+            console.log("List of todos: %o must be serialized and sent to server", state.get('todos'));
+            return state;
+        case Actions.GET_TODOS:
+            console.log("List of todos must get server and parsed");
+            return state;
+
 
         default:
             console.log("Default in root-reducer invoked, state: ", state);
