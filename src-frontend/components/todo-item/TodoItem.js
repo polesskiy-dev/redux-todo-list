@@ -6,7 +6,7 @@ import InlineEditableText from './inline-editable-text/InlineEditableText'
 
 class TodoItem extends Component {
     render() {
-        const {id, todo, onTodoClick, onRemoveTodoClick, onReplaceTodoClick} = this.props;
+        const {id, todo, onTodoClick, onRemoveTodoClick} = this.props;
         const text = todo.get('text');
         const isDone = todo.get('isDone');
 
@@ -18,7 +18,7 @@ class TodoItem extends Component {
                     <span className={`aui-icon ${isDone ? "icon-success" : "icon-error"}`}/>
                     <strong>Number: {id}</strong>
                 </p>
-                <InlineEditableText text={text} onFinishEdit={(newText)=>onReplaceTodoClick(id, newText)}/>
+                <InlineEditableText text={text} id={id}/>
 
                 <span onClick={(e) => {
                     e.stopPropagation();
@@ -32,9 +32,7 @@ class TodoItem extends Component {
 const mapDispatchToProps = (dispatch) => {
     return {
         onTodoClick: (id) => dispatch(Actions.toggleTodo(id)),
-        onRemoveTodoClick: (id) => dispatch(Actions.removeTodo(id)),
-        //TODO: understand, leave it here or separate to InlineEditableText
-        onReplaceTodoClick: (id, newText) => dispatch(Actions.replaceText(id, newText))
+        onRemoveTodoClick: (id) => dispatch(Actions.removeTodo(id))
     };
 };
 

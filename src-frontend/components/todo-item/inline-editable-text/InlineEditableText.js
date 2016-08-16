@@ -1,4 +1,6 @@
 import React, {Component} from 'react'
+import {connect} from 'react-redux';
+import * as Actions from '../../../actions/actions'
 import styles from './InlineEditableText.less'
 
 class InlineEditableText extends Component {
@@ -23,9 +25,8 @@ class InlineEditableText extends Component {
         e.stopPropagation();
         this.setState({
             isEditable: false,
-            text: e.target.value
         });
-        this.props.onFinishEdit(this.state.text);
+        this.props.onReplaceTodoClick(this.props.id, e.target.value);
     };
 
     render() {
@@ -46,4 +47,11 @@ class InlineEditableText extends Component {
     }
 }
 
-export default InlineEditableText;
+const mapDispatchToProps = (dispatch) => {
+    return {
+        onReplaceTodoClick: (id, newText) => dispatch(Actions.replaceText(id, newText))
+    };
+};
+
+export default connect(null, mapDispatchToProps)(InlineEditableText)
+
