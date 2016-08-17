@@ -37,17 +37,31 @@ const rootReducer = (state = initialTodosState, action) => {
             return state.setIn(['todos', action.payload.id, 'text'], action.payload.text);
 
         case Actions.POST_TODOS:
-            console.log("List of todos: %o must be serialized and sent to server", state.get('todos'));
+            console.log("List of todos: %o must be serialized and sent to server, serialized: %s", state.get('todos'), toJSON(state.get('todos')));
             fetch('/todos', {
                 method: 'post',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
                 body: toJSON(state.get('todos'))
             });
             return state;
 
-        case Actions.RECEIVE_TODOS:
-            console.log("Obtained new list of todos: %o", action.payload.todos);
-            return state.set('todos', action.payload.todos);
-
+        case Actions.FETCH_TODOS:
+            console.log("fetch todos action passing through fetch %o, with status: %s", action, action.payload.status);
+            switch (action.payload.status) {
+                case Actions.REQUEST.PENDING:
+                    console.log("Request for fetching todos will be sent to server");
+                    return state;
+                case Actions.REQUEST.SUCESS:
+                    // Replace state todos by todos fetched from server
+                    return state.set('todos', action.payload.response);
+                case Actions.REQUEST.FAILURE:
+                    console.error(action.payload.error);
+                    return state;
+                default:
+                    return state;
+            }
 
         default:
             console.log("Default in root-reducer invoked, state: ", state);

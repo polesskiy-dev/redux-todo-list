@@ -18,25 +18,23 @@ app.set('view engine', 'jade');
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: false}));
+//app.use(bodyParser.text());
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
 app.use('/users', users);
 
-let todosJSON = '["~#iL",[["~#iM",["isDone",true,"text","Lorem ipsum dolor"]],["^1",["isDone",false,"text","Lorem ipsum dolor"]],["^1",["isDone",true,"text","Lorem ipsum dolor"]],["^1",["isDone",false,"text","Lorem ipsum dolor"]],["^1",["isDone",true,"text","Lorem ipsum dolor"]],["^1",["isDone",false,"text","Lorem ipsum dolor"]],["^1",["isDone",false,"text","Lorem ipsum dolor"]]]]';
+let todosImmutableList = null;
 
 app.post('/todos', (req, resp)=> {
-    todosJSON = req.body;
-    console.log(todosJSON);
-    resp.send("OK");
+    todosImmutableList = req.body;
+    console.log(req.body);
+    resp.sendStatus(200);
 });
 
 app.get('/todos', (req, resp)=> {
-    // console.log("Sending: %s", JSON.stringify(todos));
-    // resp.send(JSON.stringify(todos));
-    resp.send(todosJSON);
+    resp.send(todosImmutableList);
 });
 
 // catch 404 and forward to error handler

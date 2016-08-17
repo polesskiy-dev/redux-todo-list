@@ -1,9 +1,12 @@
+import {fromJSON} from 'transit-immutable-js'
+
 export const ADD_TODO = 'ADD_TODO';
 export const TOGGLE_TODO = 'TOGGLE_TODO';
 export const REMOVE_TODO = 'REMOVE_TODO';
 export const REPLACE_TODO_TEXT = 'REPLACE_TODO_TEXT';
 export const POST_TODOS = 'POST_TODOS';
-export const RECEIVE_TODOS = 'RECEIVE_TODOS';
+export const FETCH_TODOS = 'FETCH_TODOS';
+export const REQUEST = {PENDING: 'pending', SUCESS: 'sucess', FAILURE: 'failure'};
 
 /**
  * Action creators
@@ -48,12 +51,42 @@ export const postTodos = () => {
     }
 };
 
-export const receiveTodos = (todos) => {
+export const getTodosRequest = () => {
     return {
-        type: RECEIVE_TODOS,
+        type: FETCH_TODOS,
         payload: {
-            todos: todos
+            status: REQUEST.PENDING
         }
+    }
+};
+
+export const getTodosSucess = (todos) => {
+    return {
+        type: FETCH_TODOS,
+        payload: {
+            status: REQUEST.SUCESS,
+            response: todos
+        }
+    }
+};
+
+export const getTodosFailure = (error) => {
+    return {
+        type: FETCH_TODOS,
+        payload: {
+            status: REQUEST.FAILURE,
+            error: error
+        }
+    }
+};
+
+export const getTodos = () => {
+    return (dispatch) => {
+        dispatch(getTodosRequest());
+        return fetch('/todos')
+            .then(resp=>resp.text())
+            .then(text=> dispatch(getTodosSucess(fromJSON(text))))
+            .catch(error=>dispatch(getTodosFailure(`Error ${error} while trying to fetch todos from server`)))
     }
 };
 
