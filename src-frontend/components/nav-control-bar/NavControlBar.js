@@ -75,7 +75,7 @@ const mapDispatchToProps = (dispatch) => {
     return {
         createNewTodoItem: (text) => dispatch(Actions.addTodo(text)),
         postTodosToServer: () => dispatch(Actions.postTodos()),
-        getTodosFromServer: () => dispatch(Actions.getTodos())
+        getTodosFromServer: () => dispatch(Actions.fetchTodos())
     };
 };
 

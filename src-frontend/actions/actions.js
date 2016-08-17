@@ -1,4 +1,12 @@
-import {fromJSON} from 'transit-immutable-js'
+/**
+ * Action creators.
+ *
+ * @see https://github.com/github/fetch
+ * @see https://github.com/gaearon/redux-thunk
+ * @see https://github.com/glenjamin/transit-immutable-js
+ */
+
+import {toJSON, fromJSON} from 'transit-immutable-js'
 
 export const ADD_TODO = 'ADD_TODO';
 export const TOGGLE_TODO = 'TOGGLE_TODO';
@@ -8,8 +16,19 @@ export const POST_TODOS = 'POST_TODOS';
 export const FETCH_TODOS = 'FETCH_TODOS';
 export const REQUEST = {PENDING: 'pending', SUCESS: 'sucess', FAILURE: 'failure'};
 
+/** util check http status function*/
+const checkStatus = (response) => {
+    if (response.status >= 200 && response.status < 300) {
+        return response
+    } else {
+        var error = new Error(response.statusText)
+        error.response = response;
+        throw error
+    }
+};
+
 /**
- * Action creators
+ * Todos CRUD actions
  */
 export const addTodo = (text) => {
     return {
@@ -45,13 +64,55 @@ export const replaceText = (id, text) => {
     }
 };
 
-export const postTodos = () => {
+/**
+ * Save (post) todos to server actions
+ */
+export const postTodosStarted = () => {
     return {
-        type: POST_TODOS
+        type: POST_TODOS,
+        payload: {
+            status: REQUEST.PENDING
+        }
     }
 };
 
-export const getTodosRequest = () => {
+export const postTodosSucess = () => {
+    return {
+        type: POST_TODOS,
+        payload: {
+            status: REQUEST.SUCESS
+        }
+    }
+};
+
+export const postTodosFailure = (error) => {
+    return {
+        type: POST_TODOS,
+        payload: {
+            status: REQUEST.FAILURE,
+            error: error
+        }
+    }
+};
+
+export const postTodos = () => {
+    return (dispatch, getState) => {
+        dispatch(postTodosStarted());
+        fetch('/todos', {
+            method: 'post',
+            headers: {'Content-Type': 'application/json'},
+            body: toJSON(getState().get('todos'))
+        })
+            .then(checkStatus)
+            .then(()=> dispatch(postTodosSucess()))
+            .catch(error=>dispatch(postTodosFailure(`Error ${error} while trying to post todos to server`)))
+    }
+};
+
+/**
+ * Fetch todos from server actions
+ */
+export const fetchTodosStarted = () => {
     return {
         type: FETCH_TODOS,
         payload: {
@@ -60,7 +121,7 @@ export const getTodosRequest = () => {
     }
 };
 
-export const getTodosSucess = (todos) => {
+export const fetchTodosSucess = (todos) => {
     return {
         type: FETCH_TODOS,
         payload: {
@@ -70,7 +131,7 @@ export const getTodosSucess = (todos) => {
     }
 };
 
-export const getTodosFailure = (error) => {
+export const fetchTodosFailure = (error) => {
     return {
         type: FETCH_TODOS,
         payload: {
@@ -80,13 +141,14 @@ export const getTodosFailure = (error) => {
     }
 };
 
-export const getTodos = () => {
+export const fetchTodos = () => {
     return (dispatch) => {
-        dispatch(getTodosRequest());
+        dispatch(fetchTodosStarted());
         return fetch('/todos')
+            .then(checkStatus)
             .then(resp=>resp.text())
-            .then(text=> dispatch(getTodosSucess(fromJSON(text))))
-            .catch(error=>dispatch(getTodosFailure(`Error ${error} while trying to fetch todos from server`)))
+            .then(text=> dispatch(fetchTodosSucess(fromJSON(text))))
+            .catch(error=>dispatch(fetchTodosFailure(`Error ${error} while trying to fetch todos from server`)))
     }
 };
 
