@@ -4,9 +4,8 @@
 
 import React, {Component} from 'react'
 import {connect} from 'react-redux';
-// import fetch from 'isomorphic-fetch'
-// import {fromJSON} from 'transit-immutable-js'
 import * as Actions from '../../actions/actions';
+import Filters from '../../actions/filters';
 import styles from './NavControlBar.less'
 
 const DUMMY_TEXT = "Lorem ipsum dolor";
@@ -31,10 +30,10 @@ class NavControlBar extends Component {
     };
 
     render() {
-
+        const {postTodosToServer, getTodosFromServer, viewAllTodos, viewCompletedTodos, viewUncompletedTodos} = this.props
         return (
             <nav className="aui-header">
-                <ul className="aui-nav">
+                <ul className={`aui-nav ${styles['nav-list']}`}>
                     <li>
                         <a href="#"
                            onClick={this.createNewTodoItem}>Create new todo item:
@@ -52,12 +51,17 @@ class NavControlBar extends Component {
                             </fieldset>
                         </form>
                     </li>
-                    <li>
-                        <a onClick={this.props.postTodosToServer} href="#">Save to server</a>
+                    <li className={styles.separated}>
+                        <a onClick={postTodosToServer} href="#">Save to server</a>
                     </li>
                     <li>
-                        <a onClick={this.props.getTodosFromServer} href="#">Get from server</a>
+                        <a onClick={getTodosFromServer} href="#">Get from server</a>
                     </li>
+                    <li className={styles.separated}>
+                        <a onClick={viewAllTodos} href="#"> See all</a>
+                    </li>
+                    <li><a onClick={viewCompletedTodos} href="#">Only completed</a></li>
+                    <li><a onClick={viewUncompletedTodos} href="#">Only uncompleted</a></li>
                 </ul>
             </nav>
         )
@@ -75,7 +79,10 @@ const mapDispatchToProps = (dispatch) => {
     return {
         createNewTodoItem: (text) => dispatch(Actions.addTodo(text)),
         postTodosToServer: () => dispatch(Actions.postTodos()),
-        getTodosFromServer: () => dispatch(Actions.fetchTodos())
+        getTodosFromServer: () => dispatch(Actions.fetchTodos()),
+        viewAllTodos: ()=> dispatch(Actions.setTodosVisibilityFilter(Filters.VISIBILITY_FILTER.ALL)),
+        viewCompletedTodos: ()=>dispatch(Actions.setTodosVisibilityFilter(Filters.VISIBILITY_FILTER.COMPLETED)),
+        viewUncompletedTodos: ()=>dispatch(Actions.setTodosVisibilityFilter(Filters.VISIBILITY_FILTER.UNCOMPLETED))
     };
 };
 

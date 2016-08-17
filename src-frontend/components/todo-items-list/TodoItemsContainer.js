@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux';
-// import ImmutablePropTypes from 'react-immutable-proptypes'
 import TodoItem from '../todo-item/TodoItem'
+import Filters from '../../actions/filters'
 import style from './TodoItemsContainer.less'
 
 class TodoItemsList extends Component {
@@ -13,16 +13,30 @@ class TodoItemsList extends Component {
      };*/
 
     render() {
-        const todos = this.props.todos;
+        const {todos, visibilityFilter} = this.props;
+        console.log("Visibility filter: %s, todos: %s", visibilityFilter, JSON.stringify(todos));
 
         return (
             <section className={`${style['flex-container']}`}>
-                {todos.map((todo, index) => <TodoItem
-                        key={index}
-                        id={index}
-                        todo={todo}
-                    />
-                )}
+                {todos
+                    .filter((todo)=> {
+                            switch (visibilityFilter) {
+                                case Filters.VISIBILITY_FILTER.COMPLETED:
+                                    return todo.get('isDone');
+                                case Filters.VISIBILITY_FILTER.UNCOMPLETED:
+                                    return !todo.get('isDone');
+                                case Filters.VISIBILITY_FILTER.ALL:
+                                default:
+                                    return true;
+                            }
+                        }
+                    )
+                    .map((todo, index) => <TodoItem
+                            key={index}
+                            id={index}
+                            todo={todo}
+                        />
+                    )}
             </section>
         )
     }
@@ -30,7 +44,8 @@ class TodoItemsList extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        todos: state.get('todos')
+        todos: state.get('todos'),
+        visibilityFilter: state.get('visibilityFilter')
     }
 };
 

@@ -7,6 +7,7 @@ const initialTodosState = Map({todos: List([])});
 
 const rootReducer = (state = initialTodosState, action) => {
     switch (action.type) {
+        /** Todos CRUD section */
         /*
          * Add todo to state
          */
@@ -35,6 +36,7 @@ const rootReducer = (state = initialTodosState, action) => {
             console.log("List item text must be replaced, with id %d, new item text: %s", action.payload.id, action.payload.text);
             return state.setIn(['todos', action.payload.id, 'text'], action.payload.text);
 
+        /** todos server requests section*/
         /*
          * Posting todos to server request flow
          */
@@ -70,6 +72,10 @@ const rootReducer = (state = initialTodosState, action) => {
                 default:
                     return state;
             }
+
+        /**todos visibility filter section*/
+        case Actions.SET_VISIBILITY_FILTER:
+            return state.set('visibilityFilter', action.payload.filter);
 
         default:
             console.log("Default in root-reducer invoked, state: ", state);

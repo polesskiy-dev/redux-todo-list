@@ -15,6 +15,7 @@ export const REPLACE_TODO_TEXT = 'REPLACE_TODO_TEXT';
 export const POST_TODOS = 'POST_TODOS';
 export const FETCH_TODOS = 'FETCH_TODOS';
 export const REQUEST = {PENDING: 'pending', SUCESS: 'sucess', FAILURE: 'failure'};
+export const SET_VISIBILITY_FILTER = 'SET_VISIBILITY_FILTER';
 
 /** util check http status function*/
 const checkStatus = (response) => {
@@ -63,6 +64,19 @@ export const replaceText = (id, text) => {
         }
     }
 };
+
+/**
+ * Todos visibility filter
+ */
+export const setTodosVisibilityFilter = (filter) => {
+    return {
+        type: SET_VISIBILITY_FILTER,
+        payload: {
+            filter: filter
+        }
+    }
+};
+
 
 /**
  * Save (post) todos to server actions

@@ -3,14 +3,17 @@ import {render} from 'react-dom'
 import {createStore, applyMiddleware} from 'redux'
 import {Provider} from 'react-redux'
 import thunk from 'redux-thunk';
-// import createSagaMiddleware from 'redux-saga'
 import {Map, List} from 'immutable'
 import {toJSON, fromJSON} from 'transit-immutable-js'
 import App from './components/App'
 import reducer from './reducers/root-reducer'
 import actionsLogger from './middleware/actions-logger'
+import Filters from './actions/filters'
+
+console.debug(Filters);
 
 const DUMMY_INITIAL_DATA = Map({
+    visibilityFilter: Filters.VISIBILITY_FILTER.ALL,
     todos: List([
         Map({isDone: true, text: 'make components'}),
         Map({isDone: false, text: 'design actions'}),
