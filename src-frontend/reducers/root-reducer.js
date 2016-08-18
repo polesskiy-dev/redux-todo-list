@@ -12,7 +12,7 @@ const rootReducer = (state = initialTodosState, action) => {
          * Add todo to state
          */
         case Actions.ADD_TODO :
-            console.log("New todo item %o must be added, todos: %o", Map(action.payload), state.get('todos'));
+            console.log("New todo item %o must be added, todos: %o", action.payload, state.get('todos'));
             return state.updateIn(['todos'], (todos)=>todos.push(Map(action.payload)));
 
         /*

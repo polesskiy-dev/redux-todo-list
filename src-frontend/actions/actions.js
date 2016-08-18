@@ -31,11 +31,11 @@ const checkStatus = (response) => {
 /**
  * Todos CRUD actions
  */
-export const addTodo = (text) => {
+export const addTodo = (text, isDone) => {
     return {
         type: ADD_TODO,
         payload: {
-            isDone: false,
+            isDone: isDone,
             text: text
         }
     }

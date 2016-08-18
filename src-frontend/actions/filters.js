@@ -4,6 +4,6 @@ const filters = {
         COMPLETED: 'completed',
         UNCOMPLETED: 'uncompleted'
     }
-}
+};
 
 export default filters;

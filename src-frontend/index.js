@@ -27,7 +27,6 @@ const PERSISTED_STATE = sessionStorage.getItem('reduxState') ? Map(fromJSON(sess
 
 /* create store and init it by initial data*/
 const store = createStore(reducer, PERSISTED_STATE, applyMiddleware(actionsLogger, thunk));
-// const store = createStore(reducer, PERSISTED_STATE, applyMiddleware(actionsLogger, createSagaMiddleware()));
 
 /*
  * Subscribe on store change event.

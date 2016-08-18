@@ -1,16 +1,23 @@
-import React, {Component} from 'react'
+/**
+ * Todo items list (container)
+ *
+ * @see https://www.npmjs.com/package/react-immutable-proptypes
+ */
+import React, {Component, PropTypes} from 'react'
 import {connect} from 'react-redux';
+import {listOf, mapContains} from 'react-immutable-proptypes'
 import TodoItem from '../todo-item/TodoItem'
 import Filters from '../../actions/filters'
 import style from './TodoItemsContainer.less'
 
 class TodoItemsList extends Component {
-    /*static propTypes = {
-     todos: ImmutablePropTypes.listOf(PropTypes.shape({
-     isDone: PropTypes.bool.isRequired,
-     text: PropTypes.string.isRequired
-     }).isRequired).isRequired
-     };*/
+    static propTypes = {
+        todos: listOf(mapContains(
+            {
+                isDone: PropTypes.bool.isRequired,
+                text: PropTypes.string.isRequired
+            }).isRequired)
+    };
 
     render() {
         const {todos, visibilityFilter} = this.props;

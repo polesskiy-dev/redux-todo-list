@@ -17,37 +17,45 @@ class NavControlBar extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            text: ""
+            text: "",
+            isDone: false
         }
     }
+
+    handleChangeSelect = (e) => {
+        this.setState({isDone: e.target.value === 'completed'});
+        console.log(this.state)
+    };
 
     handleEdit = (e) => {
         this.setState({text: e.target.value});
     };
 
     createNewTodoItem = () => {
-        this.props.createNewTodoItem(this.state.text || DUMMY_TEXT);
+        this.props.createNewTodoItem(this.state.text || DUMMY_TEXT, this.state.isDone);
     };
 
     render() {
-        const {postTodosToServer, getTodosFromServer, viewAllTodos, viewCompletedTodos, viewUncompletedTodos} = this.props
+        const {postTodosToServer, getTodosFromServer, viewAllTodos, viewCompletedTodos, viewUncompletedTodos} = this.props;
         return (
             <nav className="aui-header">
                 <ul className={`aui-nav ${styles['nav-list']}`}>
                     <li>
-                        <a href="#"
-                           onClick={this.createNewTodoItem}>Create new todo item:
-                        </a>
-                    </li>
-                    <li>
                         <form className={`aui`}>
                             <fieldset className={`${styles.near} field-group`}>
+                                <a href="#"
+                                   onClick={this.createNewTodoItem}>Create new todo item:
+                                </a>
                                 <input className={`${styles.long} text`}
                                        placeholder="type your todo here..."
                                        autoFocus
                                        onChange={this.handleEdit}
                                        value={this.state.text}
                                        type="text"/>
+                                <select onChange={this.handleChangeSelect} className="select">
+                                    <option value={"uncompleted"}>uncompleted</option>
+                                    <option value={"completed"}>completed</option>
+                                </select>
                             </fieldset>
                         </form>
                     </li>
@@ -77,7 +85,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        createNewTodoItem: (text) => dispatch(Actions.addTodo(text)),
+        createNewTodoItem: (text, isDone) => dispatch(Actions.addTodo(text, isDone)),
         postTodosToServer: () => dispatch(Actions.postTodos()),
         getTodosFromServer: () => dispatch(Actions.fetchTodos()),
         viewAllTodos: ()=> dispatch(Actions.setTodosVisibilityFilter(Filters.VISIBILITY_FILTER.ALL)),
