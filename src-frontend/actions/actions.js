@@ -1,5 +1,5 @@
 /**
- * Action creators.
+ * Actions.
  *
  * @see https://github.com/github/fetch
  * @see https://github.com/gaearon/redux-thunk
@@ -7,22 +7,15 @@
  */
 
 import {toJSON, fromJSON} from 'transit-immutable-js'
+import * as types from '../constants/action-types'
 
-export const ADD_TODO = 'ADD_TODO';
-export const TOGGLE_TODO = 'TOGGLE_TODO';
-export const REMOVE_TODO = 'REMOVE_TODO';
-export const REPLACE_TODO_TEXT = 'REPLACE_TODO_TEXT';
-export const POST_TODOS = 'POST_TODOS';
-export const FETCH_TODOS = 'FETCH_TODOS';
-export const REQUEST = {PENDING: 'pending', SUCESS: 'sucess', FAILURE: 'failure'};
-export const SET_VISIBILITY_FILTER = 'SET_VISIBILITY_FILTER';
 
 /** util check http status function*/
 const checkStatus = (response) => {
     if (response.status >= 200 && response.status < 300) {
         return response
     } else {
-        var error = new Error(response.statusText)
+        var error = new Error(response.statusText);
         error.response = response;
         throw error
     }
@@ -33,7 +26,7 @@ const checkStatus = (response) => {
  */
 export const addTodo = (text, isDone) => {
     return {
-        type: ADD_TODO,
+        type: types.ADD_TODO,
         payload: {
             isDone: isDone,
             text: text
@@ -43,21 +36,21 @@ export const addTodo = (text, isDone) => {
 
 export const toggleTodo = (id) => {
     return {
-        type: TOGGLE_TODO,
+        type: types.TOGGLE_TODO,
         payload: id
     }
 };
 
 export const removeTodo = (id) => {
     return {
-        type: REMOVE_TODO,
+        type: types.REMOVE_TODO,
         payload: id
     }
 };
 
 export const replaceText = (id, text) => {
     return {
-        type: REPLACE_TODO_TEXT,
+        type: types.REPLACE_TODO_TEXT,
         payload: {
             id: id,
             text: text
@@ -70,7 +63,7 @@ export const replaceText = (id, text) => {
  */
 export const setTodosVisibilityFilter = (filter) => {
     return {
-        type: SET_VISIBILITY_FILTER,
+        type: types.SET_VISIBILITY_FILTER,
         payload: {
             filter: filter
         }
@@ -83,32 +76,33 @@ export const setTodosVisibilityFilter = (filter) => {
  */
 export const postTodosStarted = () => {
     return {
-        type: POST_TODOS,
+        type: types.POST_TODOS,
         payload: {
-            status: REQUEST.PENDING
+            status: types.REQUEST.PENDING
         }
     }
 };
 
 export const postTodosSucess = () => {
     return {
-        type: POST_TODOS,
+        type: types.POST_TODOS,
         payload: {
-            status: REQUEST.SUCESS
+            status: types.REQUEST.SUCESS
         }
     }
 };
 
 export const postTodosFailure = (error) => {
     return {
-        type: POST_TODOS,
+        type: types.POST_TODOS,
         payload: {
-            status: REQUEST.FAILURE,
+            status: types.REQUEST.FAILURE,
             error: error
         }
     }
 };
 
+//action creator for posting todos (obtain from store (state)) to server flow
 export const postTodos = () => {
     return (dispatch, getState) => {
         dispatch(postTodosStarted());
@@ -128,18 +122,18 @@ export const postTodos = () => {
  */
 export const fetchTodosStarted = () => {
     return {
-        type: FETCH_TODOS,
+        type: types.FETCH_TODOS,
         payload: {
-            status: REQUEST.PENDING
+            status: types.REQUEST.PENDING
         }
     }
 };
 
 export const fetchTodosSucess = (todos) => {
     return {
-        type: FETCH_TODOS,
+        type: types.FETCH_TODOS,
         payload: {
-            status: REQUEST.SUCESS,
+            status: types.REQUEST.SUCESS,
             response: todos
         }
     }
@@ -147,14 +141,15 @@ export const fetchTodosSucess = (todos) => {
 
 export const fetchTodosFailure = (error) => {
     return {
-        type: FETCH_TODOS,
+        type: types.FETCH_TODOS,
         payload: {
-            status: REQUEST.FAILURE,
+            status: types.REQUEST.FAILURE,
             error: error
         }
     }
 };
 
+//action creator for fetching todos flow
 export const fetchTodos = () => {
     return (dispatch) => {
         dispatch(fetchTodosStarted());

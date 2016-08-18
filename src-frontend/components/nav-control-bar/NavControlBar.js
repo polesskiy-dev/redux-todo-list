@@ -5,7 +5,7 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux';
 import * as Actions from '../../actions/actions';
-import Filters from '../../actions/filters';
+import * as filters from '../../constants/filters';
 import styles from './NavControlBar.less'
 
 const DUMMY_TEXT = "Lorem ipsum dolor";
@@ -88,9 +88,9 @@ const mapDispatchToProps = (dispatch) => {
         createNewTodoItem: (text, isDone) => dispatch(Actions.addTodo(text, isDone)),
         postTodosToServer: () => dispatch(Actions.postTodos()),
         getTodosFromServer: () => dispatch(Actions.fetchTodos()),
-        viewAllTodos: ()=> dispatch(Actions.setTodosVisibilityFilter(Filters.VISIBILITY_FILTER.ALL)),
-        viewCompletedTodos: ()=>dispatch(Actions.setTodosVisibilityFilter(Filters.VISIBILITY_FILTER.COMPLETED)),
-        viewUncompletedTodos: ()=>dispatch(Actions.setTodosVisibilityFilter(Filters.VISIBILITY_FILTER.UNCOMPLETED))
+        viewAllTodos: ()=> dispatch(Actions.setTodosVisibilityFilter(filters.VISIBILITY_FILTER.ALL)),
+        viewCompletedTodos: ()=>dispatch(Actions.setTodosVisibilityFilter(filters.VISIBILITY_FILTER.COMPLETED)),
+        viewUncompletedTodos: ()=>dispatch(Actions.setTodosVisibilityFilter(filters.VISIBILITY_FILTER.UNCOMPLETED))
     };
 };
 

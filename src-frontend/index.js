@@ -8,12 +8,10 @@ import {toJSON, fromJSON} from 'transit-immutable-js'
 import App from './components/App'
 import reducer from './reducers/root-reducer'
 import actionsLogger from './middleware/actions-logger'
-import Filters from './actions/filters'
-
-console.debug(Filters);
+import * as filters from './constants/filters'
 
 const DUMMY_INITIAL_DATA = Map({
-    visibilityFilter: Filters.VISIBILITY_FILTER.ALL,
+    visibilityFilter: filters.VISIBILITY_FILTER.ALL,
     todos: List([
         Map({isDone: true, text: 'make components'}),
         Map({isDone: false, text: 'design actions'}),

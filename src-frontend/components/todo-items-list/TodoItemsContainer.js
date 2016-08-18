@@ -7,7 +7,7 @@ import React, {Component, PropTypes} from 'react'
 import {connect} from 'react-redux';
 import {listOf, mapContains} from 'react-immutable-proptypes'
 import TodoItem from '../todo-item/TodoItem'
-import Filters from '../../actions/filters'
+import * as filters from '../../constants/filters'
 import style from './TodoItemsContainer.less'
 
 class TodoItemsList extends Component {
@@ -28,11 +28,11 @@ class TodoItemsList extends Component {
                 {todos
                     .filter((todo)=> {
                             switch (visibilityFilter) {
-                                case Filters.VISIBILITY_FILTER.COMPLETED:
+                                case filters.VISIBILITY_FILTER.COMPLETED:
                                     return todo.get('isDone');
-                                case Filters.VISIBILITY_FILTER.UNCOMPLETED:
+                                case filters.VISIBILITY_FILTER.UNCOMPLETED:
                                     return !todo.get('isDone');
-                                case Filters.VISIBILITY_FILTER.ALL:
+                                case filters.VISIBILITY_FILTER.ALL:
                                 default:
                                     return true;
                             }
