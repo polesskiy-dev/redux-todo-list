@@ -4,7 +4,15 @@ import * as Actions from '../../actions/actions'
 import styles from './TodoItem.less'
 import InlineEditableText from './inline-editable-text/InlineEditableText'
 
-class TodoItem extends Component {
+const mapDispatchToProps = (dispatch) => {
+    return {
+        onTodoClick: (id) => dispatch(Actions.toggleTodo(id)),
+        onRemoveTodoClick: (id) => dispatch(Actions.removeTodo(id))
+    };
+};
+
+@connect(null, mapDispatchToProps)
+export default class TodoItem extends Component {
     render() {
         const {id, todo, onTodoClick, onRemoveTodoClick} = this.props;
         const text = todo.get('text');
@@ -28,13 +36,3 @@ class TodoItem extends Component {
         );
     }
 }
-
-const mapDispatchToProps = (dispatch) => {
-    return {
-        onTodoClick: (id) => dispatch(Actions.toggleTodo(id)),
-        onRemoveTodoClick: (id) => dispatch(Actions.removeTodo(id))
-    };
-};
-
-//maybe first argument means mapStateToProps, but we already connect state to props
-export default connect(null, mapDispatchToProps)(TodoItem)

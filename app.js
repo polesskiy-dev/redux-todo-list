@@ -29,7 +29,7 @@ let todosImmutableList = null;
 
 app.post('/todos', (req, resp)=> {
     todosImmutableList = req.body;
-    console.log(req.body);
+    console.log(JSON.stringify(req.body));
     resp.sendStatus(200);
 });
 

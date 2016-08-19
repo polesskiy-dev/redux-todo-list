@@ -3,7 +3,14 @@ import {connect} from 'react-redux';
 import * as Actions from '../../../actions/actions'
 import styles from './InlineEditableText.less'
 
-class InlineEditableText extends Component {
+const mapDispatchToProps = (dispatch) => {
+    return {
+        onReplaceTodoClick: (id, newText) => dispatch(Actions.replaceText(id, newText))
+    };
+};
+
+@connect(null, mapDispatchToProps)
+export default class InlineEditableText extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -47,11 +54,5 @@ class InlineEditableText extends Component {
     }
 }
 
-const mapDispatchToProps = (dispatch) => {
-    return {
-        onReplaceTodoClick: (id, newText) => dispatch(Actions.replaceText(id, newText))
-    };
-};
 
-export default connect(null, mapDispatchToProps)(InlineEditableText)
 

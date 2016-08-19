@@ -3,7 +3,10 @@ const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
-    entry: ['./src-frontend/index'],
+    entry: [
+        // Set up an ES6-ish environment
+        'babel-polyfill',
+        './src-frontend/index'],
     output: {
         path: path.resolve('./public'),
         filename: 'js/bundle/bundle.js'
@@ -23,6 +26,7 @@ module.exports = {
                 loader: ['babel-loader'],
                 exclude: /node_modules/,
                 query: {
+                    plugins: ['transform-runtime', 'transform-decorators-legacy'],
                     presets: ['es2015', 'stage-0', 'react']
                 }
             },

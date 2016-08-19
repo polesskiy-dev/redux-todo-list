@@ -161,3 +161,8 @@ export const fetchTodos = () => {
     }
 };
 
+/** for saga test */
+export const start = (initialData) => ({type: 'START', initialData: initialData});
+export const tick = () => ({type: 'TICK'});
+export const stop = () => ({type: 'STOP'});
+export const reset = () => ({type: 'RESET'});

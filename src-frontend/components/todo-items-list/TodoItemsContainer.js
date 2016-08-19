@@ -10,7 +10,15 @@ import TodoItem from '../todo-item/TodoItem'
 import * as filters from '../../constants/filters'
 import style from './TodoItemsContainer.less'
 
-class TodoItemsList extends Component {
+const mapStateToProps = (state) => {
+    return {
+        todos: state.get('todos'),
+        visibilityFilter: state.get('visibilityFilter')
+    }
+};
+
+@connect(mapStateToProps)
+export default class TodoItemsList extends Component {
     static propTypes = {
         todos: listOf(mapContains(
             {
@@ -48,13 +56,3 @@ class TodoItemsList extends Component {
         )
     }
 }
-
-const mapStateToProps = (state) => {
-    return {
-        todos: state.get('todos'),
-        visibilityFilter: state.get('visibilityFilter')
-    }
-};
-
-export default connect(mapStateToProps)(TodoItemsList)
-

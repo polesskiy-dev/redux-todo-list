@@ -10,10 +10,28 @@ import styles from './NavControlBar.less'
 
 const DUMMY_TEXT = "Lorem ipsum dolor";
 
+const mapStateToProps = (state) => {
+    return {
+        todos: state.get('todos')
+    }
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        createNewTodoItem: (text, isDone) => dispatch(Actions.addTodo(text, isDone)),
+        postTodosToServer: () => dispatch(Actions.postTodos()),
+        getTodosFromServer: () => dispatch(Actions.fetchTodos()),
+        viewAllTodos: ()=> dispatch(Actions.setTodosVisibilityFilter(filters.VISIBILITY_FILTER.ALL)),
+        viewCompletedTodos: ()=>dispatch(Actions.setTodosVisibilityFilter(filters.VISIBILITY_FILTER.COMPLETED)),
+        viewUncompletedTodos: ()=>dispatch(Actions.setTodosVisibilityFilter(filters.VISIBILITY_FILTER.UNCOMPLETED))
+    };
+};
+
 /**
  * Navigation var with control buttons
  */
-class NavControlBar extends Component {
+@connect(mapStateToProps, mapDispatchToProps)
+export default class NavControlBar extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -77,21 +95,4 @@ class NavControlBar extends Component {
 }
 
 
-const mapStateToProps = (state) => {
-    return {
-        todos: state.get('todos')
-    }
-};
-
-const mapDispatchToProps = (dispatch) => {
-    return {
-        createNewTodoItem: (text, isDone) => dispatch(Actions.addTodo(text, isDone)),
-        postTodosToServer: () => dispatch(Actions.postTodos()),
-        getTodosFromServer: () => dispatch(Actions.fetchTodos()),
-        viewAllTodos: ()=> dispatch(Actions.setTodosVisibilityFilter(filters.VISIBILITY_FILTER.ALL)),
-        viewCompletedTodos: ()=>dispatch(Actions.setTodosVisibilityFilter(filters.VISIBILITY_FILTER.COMPLETED)),
-        viewUncompletedTodos: ()=>dispatch(Actions.setTodosVisibilityFilter(filters.VISIBILITY_FILTER.UNCOMPLETED))
-    };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(NavControlBar)
+// export default connect(mapStateToProps, mapDispatchToProps)(NavControlBar)
