@@ -33,6 +33,11 @@ app.post('/todos', (req, resp)=> {
     resp.sendStatus(200);
 });
 
+app.post('/api/todo-items', (req, resp)=> {
+    console.log(JSON.stringify(req.body));
+    resp.sendStatus(200);
+});
+
 app.get('/todos', (req, resp)=> {
     resp.send(todosImmutableList);
 });

@@ -8,8 +8,6 @@ import * as Actions from '../../actions/actions';
 import * as filters from '../../constants/filters';
 import styles from './NavControlBar.less'
 
-const DUMMY_TEXT = "Lorem ipsum dolor";
-
 const mapStateToProps = (state) => {
     return {
         todos: state.get('todos')
@@ -40,44 +38,12 @@ export default class NavControlBar extends Component {
         }
     }
 
-    handleChangeSelect = (e) => {
-        this.setState({isDone: e.target.value === 'completed'});
-        console.log(this.state)
-    };
-
-    handleEdit = (e) => {
-        this.setState({text: e.target.value});
-    };
-
-    createNewTodoItem = () => {
-        this.props.createNewTodoItem(this.state.text || DUMMY_TEXT, this.state.isDone);
-    };
-
     render() {
         const {postTodosToServer, getTodosFromServer, viewAllTodos, viewCompletedTodos, viewUncompletedTodos} = this.props;
         return (
             <nav className="aui-header">
                 <ul className={`aui-nav ${styles['nav-list']}`}>
                     <li>
-                        <form className={`aui`}>
-                            <fieldset className={`${styles.near} field-group`}>
-                                <a href="#"
-                                   onClick={this.createNewTodoItem}>Create new todo item:
-                                </a>
-                                <input className={`${styles.long} text`}
-                                       placeholder="type your todo here..."
-                                       autoFocus
-                                       onChange={this.handleEdit}
-                                       value={this.state.text}
-                                       type="text"/>
-                                <select onChange={this.handleChangeSelect} className="select">
-                                    <option value={"uncompleted"}>uncompleted</option>
-                                    <option value={"completed"}>completed</option>
-                                </select>
-                            </fieldset>
-                        </form>
-                    </li>
-                    <li className={styles.separated}>
                         <a onClick={postTodosToServer} href="#">Save to server</a>
                     </li>
                     <li>
@@ -93,6 +59,3 @@ export default class NavControlBar extends Component {
         )
     }
 }
-
-
-// export default connect(mapStateToProps, mapDispatchToProps)(NavControlBar)

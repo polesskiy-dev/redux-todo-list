@@ -5,7 +5,6 @@
  * @see https://github.com/gaearon/redux-thunk
  * @see https://github.com/glenjamin/transit-immutable-js
  */
-
 import {toJSON, fromJSON} from 'transit-immutable-js'
 import * as types from '../constants/action-types'
 
@@ -66,6 +65,40 @@ export const setTodosVisibilityFilter = (filter) => {
         type: types.SET_VISIBILITY_FILTER,
         payload: {
             filter: filter
+        }
+    }
+};
+
+/**
+ * Post single todo
+ */
+export const postSingleTodoStarted = (text, isDone) => {
+    return {
+        type: types.POST_SINGLE_TODO,
+        payload: {
+            status: types.REQUEST.PENDING,
+            isDone: isDone,
+            text: text
+        }
+    }
+};
+
+export const postSingleTodoSucess = (resp) => {
+    return {
+        type: types.POST_SINGLE_TODO,
+        payload: {
+            status: types.REQUEST.SUCESS,
+            resp: resp
+        }
+    }
+};
+
+export const postSingleTodoFailure = (err) => {
+    return {
+        type: types.POST_SINGLE_TODO,
+        payload: {
+            status: types.REQUEST.ERROR,
+            err: err
         }
     }
 };
@@ -161,8 +194,3 @@ export const fetchTodos = () => {
     }
 };
 
-/** for saga test */
-export const start = (initialData) => ({type: 'START', initialData: initialData});
-export const tick = () => ({type: 'TICK'});
-export const stop = () => ({type: 'STOP'});
-export const reset = () => ({type: 'RESET'});

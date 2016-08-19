@@ -12,7 +12,6 @@ import {toJSON, fromJSON} from 'transit-immutable-js'
 import App from './components/App'
 import reducer from './reducers/root-reducer'
 import actionsLogger from './middleware/actions-logger'
-import * as Actions from './actions/actions'
 import * as filters from './constants/filters'
 import rootSaga from './sagas/post-todos-saga'
 
@@ -37,9 +36,6 @@ const PERSISTED_STATE = sessionStorage.getItem('reduxState') ? Map(fromJSON(sess
 const store = createStore(reducer, PERSISTED_STATE, applyMiddleware(actionsLogger, sagaMiddleware));
 
 sagaMiddleware.run(rootSaga);
-
-//test saga
-store.dispatch(Actions.start(500));
 
 /*
  * Subscribe on store change event.

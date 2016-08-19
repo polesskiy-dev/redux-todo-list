@@ -1,7 +1,5 @@
 import {Map, List} from 'immutable'
 import * as types from '../constants/action-types';
-//import fetch from 'isomorphic-fetch'
-//import {toJSON} from 'transit-immutable-js'
 
 const initialTodosState = Map({todos: List([])});
 
