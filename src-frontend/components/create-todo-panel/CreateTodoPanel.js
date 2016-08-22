@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
-import {connect} from 'react-redux';
-import * as Actions from '../../actions/actions';
+import {connect} from 'react-redux'
+import * as Actions from '../../actions/actions'
 import styles from './CreateTodoPanel.less'
 
 const DUMMY_TEXT = "Lorem ipsum dolor";
@@ -33,14 +33,15 @@ export default class CreateTodoPanel extends Component {
         this.setState({text: e.target.value});
     };
 
-    createNewTodoItem = () => {
+    createNewTodoItem = (event) => {
+        event.preventDefault();
         this.props.createNewTodoItem(this.state.text || DUMMY_TEXT, this.state.isDone);
     };
 
     render() {
         return (
             <section className={styles['form-container']}>
-                <form className={`aui`}>
+                <form onSubmit={this.createNewTodoItem} id="create-todo-form" method="post" className={`aui`}>
                     <fieldset className={`${styles.fieldset} field-group`}>
                         <label htmlFor="create-todo">Create todo:</label>
                         <input className={`text long-field`}
@@ -51,16 +52,18 @@ export default class CreateTodoPanel extends Component {
                                value={this.state.text}
                                type="text"/>
                         <select onChange={this.handleChangeSelect} className="select">
-                            <option value={"uncompleted"}>uncompleted</option>
-                            <option value={"completed"}>completed</option>
+                            <option>uncompleted</option>
+                            <option>completed</option>
                         </select>
-                        <button className="aui-button"
-                                onClick={this.createNewTodoItem}>Create!
+                        <button form="create-todo-form" className="aui-button" type="submit">
+                            Create!
                         </button>
+                        {/*<div className={styles.spinner}/>*/}
+                        {/*<span className="aui-icon aui-icon-small aui-iconfont-success">Sucess!</span>*/}
+                        {/*<span className="aui-icon aui-icon-small aui-iconfont-close-dialog">Fail! Error</span>*/}
                     </fieldset>
                 </form>
             </section>
         )
-
     }
 }

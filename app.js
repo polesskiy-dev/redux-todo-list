@@ -34,8 +34,9 @@ app.post('/todos', (req, resp)=> {
 });
 
 app.post('/api/todo-items', (req, resp)=> {
-    console.log(JSON.stringify(req.body));
-    resp.sendStatus(200);
+    let newTodo = req.body;
+    console.log(JSON.stringify(newTodo));
+    resp.send(Object.assign({}, newTodo, {_id:"001"}));
 });
 
 app.get('/todos', (req, resp)=> {

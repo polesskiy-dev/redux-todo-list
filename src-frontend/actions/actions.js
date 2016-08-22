@@ -77,8 +77,10 @@ export const postSingleTodoStarted = (text, isDone) => {
         type: types.POST_SINGLE_TODO,
         payload: {
             status: types.REQUEST.PENDING,
-            isDone: isDone,
-            text: text
+            todo: {
+                isDone: isDone,
+                text: text
+            }
         }
     }
 };
